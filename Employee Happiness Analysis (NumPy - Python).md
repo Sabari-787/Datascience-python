@@ -8,114 +8,169 @@
 
 ## 📌 Project Overview
 
-This project analyzes **employee happiness and experience** using NumPy arrays.
+This project analyzes employee happiness and experience using NumPy arrays.
 
-The goal is to help HR:
-- 📈 Understand employee satisfaction
-- 🏢 Analyze department-wise trends
-- ⏳ Evaluate experience vs happiness
+It helps HR:
+- 📈 Understand employee satisfaction  
+- 🏢 Analyze department trends  
+- ⏳ Evaluate experience vs happiness  
 
 ---
 
-## 🧩 Dataset Description
+## 🧩 Problem Statement
+
+At a software company, the HR team wants to understand how happy employees are with company policies and how long they've been with the company.
+
+Two datasets are provided:
 
 ### 👨‍💼 Employee Details
-Contains:
-- Employee ID
-- Department
-- Years of Experience
+- Employee ID  
+- Department  
+- Years of Experience  
+
+### 😊 Survey Results
+- Employee ID  
+- Happiness Score (1–10)  
+
+---
+
+## 📂 Dataset
 
 ```python
 import numpy as np
 
 employee_details = np.array([
-    [101, 'Sales', 3],
-    [102, 'HR', 5],
-    [103, 'IT', 2],
-    [104, 'Sales', 8],
-    [105, 'IT', 6]
+    [101, 'Sales', 3],  
+    [102, 'HR', 5],    
+    [103, 'IT', 2],        
+    [104, 'Sales', 8],    
+    [105, 'IT', 6],      
+    [106, 'HR', 4],           
+    [107, 'IT', 7],    
+    [108, 'Sales', 1], 
+    [109, 'HR', 3]          
 ])
-```
 
----
-
-### 😊 Survey Results
-Contains:
-- Employee ID
-- Happiness Score (1–10)
-
-```python
 survey_results = np.array([
-    [101, 7],
-    [102, 6],
-    [103, 8],
-    [104, 5],
-    [105, 9]
+    [101, 8],
+    [102, 10],
+    [103, 9],
+    [104, 6],
+    [105, 7],
+    [106, 8],
+    [107, 9],
+    [108, 5],
+    [109, 7]
 ])
 ```
 
 ---
 
-## ⚙️ Tasks Performed
+# 🧩 Tasks & Solutions
 
-### 🔹 Task 1: Extract Columns
+---
+
+## 🔹 Task 1: Merge Arrays
+
+### Action
+Combine both arrays using `np.hstack`.
 
 ```python
-employee_ids = employee_details[:, 0]
-departments = employee_details[:, 1]
-years = employee_details[:, 2]
+merged = np.hstack((employee_details, survey_results))
 ```
 
 ---
 
-### 🔹 Task 2: Match Employee ID with Happiness Score
+## 🔹 Task 2: Print Happiness Scores
+
+### Action
+Extract and print all happiness scores.
 
 ```python
-happiness_scores = survey_results[:, 1]
+hs = merged[:, 4]
+print(hs)
 ```
 
 ---
 
-### 🔹 Task 3: Average Happiness Score
+## 🔹 Task 3: Sort Scores
+
+### Action
+Sort happiness scores in ascending order.
 
 ```python
-avg_happiness = np.mean(happiness_scores)
-print("Average Happiness:", avg_happiness)
+hsa = hs.astype(float)
+print(np.sort(hsa))
 ```
 
 ---
 
-### 🔹 Task 4: Department-wise Analysis
+## 🔹 Task 4: Employee Details
+
+### Action
+Print Employee ID and Department.
 
 ```python
-sales_scores = []
-it_scores = []
-hr_scores = []
-
-for i in range(len(employee_details)):
-    dept = employee_details[i][1]
-    score = survey_results[i][1]
-
-    if dept == "Sales":
-        sales_scores.append(score)
-    elif dept == "IT":
-        it_scores.append(score)
-    elif dept == "HR":
-        hr_scores.append(score)
-
-print("Sales Avg:", np.mean(sales_scores))
-print("IT Avg:", np.mean(it_scores))
-print("HR Avg:", np.mean(hr_scores))
+print(merged[:, 0:2])
 ```
 
 ---
 
-### 🔹 Task 5: High Experience Employees (>=5 years)
+## 🔹 Task 5: Employee ID with Happiness Score
+
+### Action
+Display Employee ID with Happiness Score.
 
 ```python
-for i in range(len(employee_details)):
-    if int(employee_details[i][2]) >= 5:
-        print(employee_details[i][0], "has high experience")
+print(merged[:, 0:5:4])
+```
+
+---
+
+## 🔹 Task 6: Convert Scores to Float
+
+### Action
+Convert scores to float.
+
+```python
+hsa = hs.astype(float)
+```
+
+---
+
+## 🔹 Task 7: Average Happiness Score
+
+### Action
+Calculate average score.
+
+```python
+print(np.mean(hsa))
+```
+
+---
+
+## 🔹 Task 8: Unique Departments
+
+### Action
+Find unique departments.
+
+```python
+dept = merged[:, 1]
+print(np.unique(dept))
+```
+
+---
+
+## 🔹 Task 9: HR Department Average Happiness
+
+### Action
+Filter HR department and calculate average score.
+
+```python
+hr = merged[merged[:, 1] == 'HR']
+hr_scores = hr[:, 4].astype(float)
+
+print(round(np.mean(hr_scores), 1))
 ```
 
 ---
@@ -123,24 +178,21 @@ for i in range(len(employee_details)):
 ## 📊 Sample Output
 
 ```
-Average Happiness: 7.0
-Sales Avg: 6.0
-IT Avg: 8.5
-HR Avg: 6.0
-102 has high experience
-104 has high experience
-105 has high experience
+Sorted Scores: [5. 6. 7. 7. 8. 8. 9. 9. 10.]
+Average Happiness: 7.66
+Unique Departments: ['HR' 'IT' 'Sales']
+HR Average Happiness: 7.3
 ```
 
 ---
 
-## 🧠 Key Concepts Learned
+## 🧠 Key Learnings
 
-- 📦 NumPy Arrays
-- 🔍 Indexing & Slicing
-- 📊 Mean Calculation
-- 🔄 Looping through arrays
-- 📈 Basic Data Analysis
+- 📦 NumPy array operations  
+- 🔍 Indexing & slicing  
+- 🔄 Data merging using `hstack`  
+- 📊 Statistical analysis (mean, sort)  
+- 🧠 Filtering data using conditions  
 
 ---
 
@@ -164,19 +216,19 @@ python main.py
 
 ## 💡 Future Improvements
 
-- 🔹 Use Pandas for advanced analysis
-- 🔹 Add data visualization (Matplotlib / Seaborn)
-- 🔹 Create dashboard (Power BI / Streamlit)
-- 🔹 Handle larger datasets
+- Use Pandas for advanced analytics  
+- Add visualizations (Matplotlib / Seaborn)  
+- Build dashboard using Streamlit  
+- Work with real-world datasets  
 
 ---
 
 ## 📈 Resume Value
 
-> Analyzed employee satisfaction data using NumPy by performing array operations, statistical analysis, and department-wise insights to support HR decision-making.
+> Performed employee happiness analysis using NumPy by applying array operations, sorting, filtering, and statistical techniques to derive insights for HR decision-making.
 
 ---
 
 ## ⭐ If you like this project
 
-Give it a ⭐ and keep learning 🚀
+Give it a ⭐ and keep building 🚀
